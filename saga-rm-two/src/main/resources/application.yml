@@ -4,6 +4,16 @@ server:
 spring:
   application:
     name: seata-sage-rm-two
+  datasource:
+    saga:
+      driver-class: com.alibaba.druid.proxy.DruidDriver
+      url: jdbc:mysql://127.0.0.1:3306/seata-storage
+      username: root
+      password: 123456
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: my_test_tx_group
 
 eureka:
   client:

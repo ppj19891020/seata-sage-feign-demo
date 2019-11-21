@@ -1,0 +1,59 @@
+{
+  "Name": "storageProcess",
+  "Comment": "模拟saga流程",
+  "StartState": "ReduceStorage",
+  "Version": "1.0.0",
+  "States": {
+    "ReduceStorage": {
+      "Comment": "扣减库存",
+      "Type": "ServiceTask",
+      "ServiceName": "storageService",
+      "ServiceMethod": "reduceStorage",
+      "CompensateState": "CompenReduceStorage",
+      "Catch": [
+        {
+          "Exceptions": [
+            "java.lang.Throwable"
+          ],
+          "Next": "CompensationTrigger"
+        }],
+      "Next": "Succeed",
+      "Input": [
+        "$.[productId]",
+        "$.[count]"
+      ],
+      "Status": {
+        "$Exception{java.lang.Throwable}": "UN",
+        "#root != null": "SU",
+        "#root == null": "FA"
+      }
+    },
+    "CompenReduceStorage": {
+      "Comment": "补偿扣减库存",
+      "Type": "ServiceTask",
+      "ServiceName": "storageService",
+      "ServiceMethod": "rollbackReduceStorage",
+      "Next": "Fail",
+      "Input": [
+        "$.[productId]",
+        "$.[count]"
+      ],
+      "Status": {
+        "$Exception{java.lang.Throwable}": "FA",
+        "#root != null": "SU",
+        "#root == null": "FA"
+      }
+    },
+    "CompensationTrigger": {
+      "Type": "CompensationTrigger"
+    },
+    "Succeed": {
+      "Type":"Succeed"
+    },
+    "Fail": {
+      "Type":"Fail",
+      "ErrorCode": "STORAGE_FAILED",
+      "Message": "purchase failed"
+    }
+  }
+}

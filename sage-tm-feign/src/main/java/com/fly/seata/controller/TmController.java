@@ -2,6 +2,7 @@ package com.fly.seata.controller;
 
 import com.fly.seata.api.RmOneApi;
 import com.fly.seata.api.RmTwoApi;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +23,12 @@ public class TmController {
   @Autowired
   private RmTwoApi rmTwoApi;
 
+  @GlobalTransactional
   @GetMapping("/test")
   public String test(){
     rmOneApi.test();
     rmTwoApi.test();
+//    throw new RuntimeException("模拟抛出异常");
     return "ok";
   }
 
