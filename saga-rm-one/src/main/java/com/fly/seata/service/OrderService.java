@@ -28,19 +28,11 @@ public class OrderService {
   }
 
   /**
-   * 下单通知消息
+   * 取消订单
+   * @param orderNo
    */
-  public void orderCreateMessage(String orderNo){
-    log.info("下单通知消息,订单号:{}",orderNo);
-  }
-
-  /**
-   * 下单失败消息
-   * @param order
-   */
-  public boolean createOrderFailMessage(OrderDTO order){
-    log.info("下单失败消息，下单信息:{}",order.toString());
-    return true;
+  public void canalOrder(String orderNo){
+    log.info("取消订单成功，订单号为:{}",orderNo);
   }
 
 }

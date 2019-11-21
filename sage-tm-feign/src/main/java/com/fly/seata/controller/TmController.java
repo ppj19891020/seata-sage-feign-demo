@@ -1,8 +1,13 @@
 package com.fly.seata.controller;
 
-import com.fly.seata.api.RmOneApi;
-import com.fly.seata.api.RmTwoApi;
+import com.fly.seata.api.OrderApi;
+import com.fly.seata.api.StorageApi;
+import com.fly.seata.dto.OrderDTO;
+import io.seata.saga.engine.StateMachineEngine;
 import io.seata.spring.annotation.GlobalTransactional;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +23,38 @@ import org.springframework.web.bind.annotation.RestController;
 public class TmController {
 
   @Autowired
-  private RmOneApi rmOneApi;
+  private OrderApi orderApi;
 
   @Autowired
-  private RmTwoApi rmTwoApi;
+  private StorageApi storageApi;
+
+  @Autowired
+  private StateMachineEngine stateMachineEngine;
 
   @GlobalTransactional
   @GetMapping("/test")
   public String test(){
-    rmOneApi.test();
-    rmTwoApi.test();
+    orderApi.test();
+    storageApi.test();
 //    throw new RuntimeException("模拟抛出异常");
+    return "ok";
+  }
+
+  /**
+   * 模拟购买商品流程
+   * @return
+   */
+  @GlobalTransactional
+  @GetMapping("/purchase")
+  public String purchase(){
+    Map<String, Object> startParams = new HashMap<>();
+    OrderDTO orderDTO = new OrderDTO();
+    orderDTO.setUserId(1l);
+    orderDTO.setCount(1);
+    orderDTO.setPrice(new BigDecimal(19));
+    orderDTO.setProductId(1l);
+    startParams.put("order",orderDTO);
+    stateMachineEngine.start("purchaseProcess",null,startParams);
     return "ok";
   }
 

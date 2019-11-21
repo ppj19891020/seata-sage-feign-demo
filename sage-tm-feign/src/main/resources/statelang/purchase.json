@@ -1,0 +1,118 @@
+{
+  "Name": "purchaseProcess",
+  "Comment": "用户下单流程-saga流程",
+  "StartState": "CreateOrderNo",
+  "Version": "1.0.0",
+  "States": {
+    "CreateOrderNo": {
+      "Comment": "生成订单号服务",
+      "Type": "ServiceTask",
+      "ServiceName": "orderApi",
+      "ServiceMethod": "createOrderNo",
+      "CompensateState": "CompensationCanalOrder",
+      "Catch": [
+        {
+          "Exceptions": [
+            "java.lang.Throwable"
+          ],
+          "Next": "CompensationTrigger"
+        }],
+      "Output": {
+        "OrderNo":"#.[root]"
+      },
+      "Next": "CreateOrder",
+      "Status": {
+        "$Exception{java.lang.Throwable}": "UN",
+        "#root != null": "SU",
+        "#root == null": "FA"
+      }
+    },
+    "CreateOrder": {
+      "Comment": "创建订单服务",
+      "Type": "ServiceTask",
+      "ServiceName": "orderApi",
+      "ServiceMethod": "createOrder",
+      "CompensateState": "CompensationCanalOrder",
+      "Next": "ReduceStorage",
+      "input": [{
+          "userId": "$.[order].userId",
+          "productId": "$.[order].productId",
+          "count": "$.[order].count",
+          "price": "$.[order].price"
+        }],
+      "Catch": [{
+          "Exceptions": [
+            "java.lang.Throwable"
+          ],
+          "Next": "CompensationTrigger"
+        }],
+      "Status": {
+        "$Exception{java.lang.Throwable}": "UN",
+        "#root != null": "SU",
+        "#root == null": "FA"
+      }
+    },
+    "ReduceStorage": {
+      "Comment": "扣减库存服务",
+      "Type": "ServiceTask",
+      "ServiceName": "storageApi",
+      "ServiceMethod": "reduce",
+      "CompensateState": "CompensatingReduceStorage",
+      "Next":"Succeed",
+      "input": [{
+        "orderNo": "$.[orderNo]",
+        "productId": "$.[order].productId",
+        "count": "$.[order].count"
+      }],
+      "Catch": [{
+        "Exceptions": [
+          "java.lang.Throwable"
+        ],
+        "Next": "CompensationTrigger"
+      }],
+      "Status": {
+        "$Exception{java.lang.Throwable}": "UN",
+        "#root != null": "SU",
+        "#root == null": "FA"
+      }
+    },
+    "CompensationCanalOrder": {
+      "Comment": "取消订单补偿服务",
+      "Type": "ServiceTask",
+      "ServiceName": "orderApi",
+      "ServiceMethod": "canalOrder",
+      "Input": [
+        "#.[orderNo]"
+      ],
+      "Status": {
+        "$Exception{java.lang.Throwable}": "UN",
+      }
+    },
+    "CompensatingReduceStorage": {
+      "Comment": "库存补偿服务",
+      "Comment": "扣减库存服务",
+      "Type": "ServiceTask",
+      "ServiceName": "storageApi",
+      "ServiceMethod": "compensateReduce",
+      "input": [{
+        "orderNo": "$.[orderNo]",
+        "productId": "$.[order].productId",
+        "count": "$.[order].count"
+      }],
+      "Status": {
+        "$Exception{java.lang.Throwable}": "UN",
+      }
+    },
+    "CompensationTrigger": {
+      "Type": "CompensationTrigger"
+    },
+    "Succeed": {
+      "Type":"Succeed"
+    },
+    "Fail": {
+      "Type":"Fail",
+      "ErrorCode": "STORAGE_FAILED",
+      "Message": "purchase failed"
+    }
+  }
+}
