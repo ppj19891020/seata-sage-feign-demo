@@ -1,5 +1,6 @@
 package com.fly.seata.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -8,7 +9,12 @@ import java.math.BigDecimal;
  * @date 2019-11-19
  * @Description:
  */
-public class OrderDTO {
+public class OrderDTO implements Serializable {
+
+  /**
+   * 订单号
+   */
+  private String orderNo;
 
   /**
    * 用户id
@@ -29,6 +35,14 @@ public class OrderDTO {
    * 总价
    */
   private BigDecimal price;
+
+  public String getOrderNo() {
+    return orderNo;
+  }
+
+  public void setOrderNo(String orderNo) {
+    this.orderNo = orderNo;
+  }
 
   public Long getUserId() {
     return userId;

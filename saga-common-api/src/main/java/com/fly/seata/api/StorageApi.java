@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author: peijiepang
@@ -18,9 +19,9 @@ public interface StorageApi {
   String test();
 
   @PostMapping(value = "/storage/reduce",consumes = MediaType.APPLICATION_JSON_VALUE)
-  void reduce(StorageDTO storageDTO);
+  void reduce(@RequestBody StorageDTO storageDTO);
 
   @PostMapping(value = "/storage/compensatereduce",consumes = MediaType.APPLICATION_JSON_VALUE)
-  void compensateReduce(StorageDTO storageDTO);
+  void compensateReduce(@RequestBody StorageDTO storageDTO);
 
 }

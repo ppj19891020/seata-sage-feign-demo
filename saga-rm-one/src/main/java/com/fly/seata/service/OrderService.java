@@ -23,8 +23,8 @@ public class OrderService {
   public String createOrder(OrderDTO order){
     String orderNo = UUID.randomUUID().toString();
     log.info("模拟下单成功流程,订单号：{} 订单信息:{}",orderNo,order.toString());
-    throw new RuntimeException("模拟下单失败！！！");
-//    return UUID.randomUUID().toString();
+//    throw new RuntimeException("模拟下单失败！！！");
+    return order.getOrderNo();
   }
 
   /**
@@ -32,7 +32,7 @@ public class OrderService {
    * @param orderNo
    */
   public void canalOrder(String orderNo){
-    log.info("取消订单成功，订单号为:{}",orderNo);
+
   }
 
 }

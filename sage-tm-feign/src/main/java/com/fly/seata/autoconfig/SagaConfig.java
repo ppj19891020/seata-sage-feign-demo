@@ -7,7 +7,10 @@ import io.seata.saga.engine.impl.ProcessCtrlStateMachineEngine;
 import io.seata.saga.rm.StateMachineEngineHolder;
 import java.util.concurrent.ThreadPoolExecutor;
 import javax.sql.DataSource;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -20,7 +23,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
  * @Description:
  */
 @Configuration
-public class SagaConfig {
+public class SagaConfig implements ApplicationContextAware {
+
+  private ApplicationContext applicationContext;
 
   @ConfigurationProperties("spring.datasource.saga")
   @Bean
@@ -68,4 +73,8 @@ public class SagaConfig {
     return (ThreadPoolExecutor)threadPoolExecutorFactoryBean.getObject();
   }
 
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
 }

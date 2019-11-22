@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -43,7 +44,7 @@ public class OrderController {
    * @param orderDTO
    * @return
    */
-  @PostMapping(name = "/createOrderNo",consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/createOrderNo",consumes = MediaType.APPLICATION_JSON_VALUE)
   public String createOrder(@RequestBody OrderDTO orderDTO){
     orderService.createOrder(orderDTO);
     return "ok";
@@ -52,9 +53,11 @@ public class OrderController {
   /**
    * 取消订单服务
    * @param orderNo
+   * @param type 类型 1：订单号生成失败  2：订单生成失败
    */
   @GetMapping("/canal/{orderNo}")
-  public void canalOrder(@PathVariable("orderNo") String orderNo){
+  public void canalOrder(@PathVariable("orderNo") String orderNo,@RequestParam("type") Integer type){
+    log.info("取消订单成功，订单号为:{} type:{}",orderNo,type);
     orderService.canalOrder(orderNo);
   }
 

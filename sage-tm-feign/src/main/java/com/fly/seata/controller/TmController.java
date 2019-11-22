@@ -4,6 +4,7 @@ import com.fly.seata.api.OrderApi;
 import com.fly.seata.api.StorageApi;
 import com.fly.seata.dto.OrderDTO;
 import io.seata.saga.engine.StateMachineEngine;
+import io.seata.saga.statelang.domain.StateMachineInstance;
 import io.seata.spring.annotation.GlobalTransactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -54,8 +55,8 @@ public class TmController {
     orderDTO.setPrice(new BigDecimal(19));
     orderDTO.setProductId(1l);
     startParams.put("order",orderDTO);
-    stateMachineEngine.start("purchaseProcess",null,startParams);
-    return "ok";
+    StateMachineInstance stateMachineInstance = stateMachineEngine.start("purchaseProcess",null,startParams);
+    return "执行状态:"+stateMachineInstance.getStatus().getStatusString();
   }
 
 }

@@ -1,11 +1,13 @@
 package com.fly.seata.dto;
 
+import java.io.Serializable;
+
 /**
  * @author: peijiepang
  * @date 2019-11-21
  * @Description:
  */
-public class StorageDTO {
+public class StorageDTO implements Serializable {
 
   /**
    * 订单号

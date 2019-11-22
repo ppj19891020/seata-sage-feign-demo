@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author: peijiepang
@@ -22,9 +23,9 @@ public interface OrderApi {
    @GetMapping("/order/createOrderNo")
    String createOrderNo();
 
-   @PostMapping(name = "/order/createOrderNo",consumes = MediaType.APPLICATION_JSON_VALUE)
+   @PostMapping(value= "/order/createOrderNo",consumes = MediaType.APPLICATION_JSON_VALUE)
    String createOrder(@RequestBody OrderDTO orderDTO);
 
    @GetMapping("/order/canal/{orderNo}")
-   void canalOrder(@PathVariable("orderNo") String orderNo);
+   void canalOrder(@PathVariable("orderNo") String orderNo,@RequestParam("type") Integer type);
 }
