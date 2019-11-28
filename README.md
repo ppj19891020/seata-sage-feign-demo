@@ -3,7 +3,8 @@ Saga 是一种补偿协议，在 Saga 模式下，分布式事务内有多个参
 
 分布式事务执行过程中，依次执行各参与者的正向操作，如果所有正向操作均执行成功，那么分布式事务提交。如果任何一个正向操作执行失败，那么分布式事务会退回去执行前面各参与者的逆向回滚操作，回滚已提交的参与者，使分布式事务回到初始状态。
 状态图如下：
-<img src="https://raw.githubusercontent.com/ppj19891020/pictures/master/seata/2.jpg"/>
+
+![状态图](https://raw.githubusercontent.com/ppj19891020/pictures/master/seata/2.jpg)
 
 Saga 模式下分布式事务通常是由事件驱动的，各个参与者之间是异步执行的，Saga 模式是一种长事务解决方案。
 
@@ -26,7 +27,7 @@ Saga模式缺点：
 4. 异常状态发生时是否进行补偿由用户自定义决定；
 5. 可以实现服务编排的需求，支持单项选择、并发、异步、子状态机调用、参数转换、参数映射、服务执行状态判断、异常捕获等功能；
 
-<img src="http://seata.io/img/saga/demo_statelang.png?raw=true"/>
+![状态图](http://seata.io/img/saga/demo_statelang.png?raw=true)
 
 ## springCloud seata saga接入指南
 ### 1. 引入jar包
@@ -162,10 +163,9 @@ spring:
 ### 5. TM配置状态机
 这个例子就配置下单服务的saga流程，具体的参数请参考：http://seata.io/zh-cn/docs/user/saga.html
 
-<img width=300 src="https://raw.githubusercontent.com/ppj19891020/pictures/master/seata/3.png"/>
+![状态机](https://raw.githubusercontent.com/ppj19891020/pictures/master/seata/3.png)
 
 json状态图格式如下：
-
 ```json
 {
   "Name": "purchaseProcess",
