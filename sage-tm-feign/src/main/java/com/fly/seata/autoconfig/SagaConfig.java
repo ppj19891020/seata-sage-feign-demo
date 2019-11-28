@@ -23,9 +23,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
  * @Description:
  */
 @Configuration
-public class SagaConfig implements ApplicationContextAware {
-
-  private ApplicationContext applicationContext;
+public class SagaConfig {
 
   @ConfigurationProperties("spring.datasource.saga")
   @Bean
@@ -73,8 +71,4 @@ public class SagaConfig implements ApplicationContextAware {
     return (ThreadPoolExecutor)threadPoolExecutorFactoryBean.getObject();
   }
 
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    this.applicationContext = applicationContext;
-  }
 }
