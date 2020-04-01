@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,14 +48,9 @@ public class TmController {
    * @return
    */
   @GlobalTransactional
-  @GetMapping("/purchase")
-  public String purchase(){
+  @PostMapping("/purchase")
+  public String purchase(@RequestBody OrderDTO orderDTO){
     Map<String, Object> startParams = new HashMap<>();
-    OrderDTO orderDTO = new OrderDTO();
-    orderDTO.setUserId(1l);
-    orderDTO.setCount(1);
-    orderDTO.setPrice(new BigDecimal(19));
-    orderDTO.setProductId(1l);
     startParams.put("order",orderDTO);
     StateMachineInstance stateMachineInstance = stateMachineEngine.start("purchaseProcess",null,startParams);
     return "执行状态:"+stateMachineInstance.getStatus().getStatusString();

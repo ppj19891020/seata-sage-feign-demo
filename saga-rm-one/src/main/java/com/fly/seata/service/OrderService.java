@@ -1,8 +1,10 @@
 package com.fly.seata.service;
 
+import com.fly.seata.dao.OrderDao;
 import com.fly.seata.dto.OrderDTO;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +17,9 @@ import org.springframework.stereotype.Service;
 @Service("orderService")
 public class OrderService {
 
+  @Autowired
+  private OrderDao orderDao;
+
   /**
    * 返回下单流程
    * @param order
@@ -24,7 +29,9 @@ public class OrderService {
     String orderNo = UUID.randomUUID().toString();
     log.info("模拟下单成功流程,订单号：{} 订单信息:{}",orderNo,order.toString());
 //    throw new RuntimeException("模拟下单失败！！！");
-    return order.getOrderNo();
+    order.setOrderNo(orderNo);
+    orderDao.insert(order);
+    return orderNo;
   }
 
   /**
@@ -32,7 +39,7 @@ public class OrderService {
    * @param orderNo
    */
   public void canalOrder(String orderNo){
-
+    orderDao.delete(orderNo);
   }
 
 }

@@ -32,9 +32,9 @@ public class OrderDTO implements Serializable {
   private Integer count;
 
   /**
-   * 总价
+   * 金额
    */
-  private BigDecimal price;
+  private BigDecimal money;
 
   public String getOrderNo() {
     return orderNo;
@@ -68,12 +68,13 @@ public class OrderDTO implements Serializable {
     this.count = count;
   }
 
-  public BigDecimal getPrice() {
-    return price;
+
+  public BigDecimal getMoney() {
+    return money;
   }
 
-  public void setPrice(BigDecimal price) {
-    this.price = price;
+  public void setMoney(BigDecimal money) {
+    this.money = money;
   }
 
   @Override
@@ -82,7 +83,7 @@ public class OrderDTO implements Serializable {
         "userId=" + userId +
         ", productId=" + productId +
         ", count=" + count +
-        ", price=" + price +
+        ", money=" + money +
         '}';
   }
 }

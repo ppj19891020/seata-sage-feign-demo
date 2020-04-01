@@ -1,6 +1,8 @@
 package com.fly.seata.service;
 
+import com.fly.seata.dao.StorageDao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,12 +14,16 @@ import org.springframework.stereotype.Service;
 @Service("storageService")
 public class StorageService {
 
+  @Autowired
+  private StorageDao storageDao;
+
   /**
    * 扣减库存
    * @return
    */
   public String reduceStorage(Long productId,Integer count){
     log.info("reductStorage productId:{} count:{}",productId,count);
+    storageDao.reduce(productId,count);
     return "ok";
   }
 
@@ -27,6 +33,7 @@ public class StorageService {
    */
   public String rollbackReduceStorage(Long prodectId,Integer count){
     log.info("rollbackreducestorage productId:{} count:{}",prodectId,count);
+    storageDao.rollback(prodectId,count);
     return "ok";
   }
 

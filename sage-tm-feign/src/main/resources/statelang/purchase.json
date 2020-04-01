@@ -39,7 +39,7 @@
           "userId": "$.[order].userId",
           "productId": "$.[order].productId",
           "count": "$.[order].count",
-          "price": "$.[order].price"
+          "price": "$.[order].money"
         }],
       "Catch": [{
           "Exceptions": [
