@@ -19,7 +19,7 @@
   <modules>
     <module>saga-rm-one</module>
     <module>saga-rm-two</module>
-    <module>sage-tm-feign</module>
+    <module>saga-tm-feign</module>
     <module>saga-common-api</module>
   </modules>
 
