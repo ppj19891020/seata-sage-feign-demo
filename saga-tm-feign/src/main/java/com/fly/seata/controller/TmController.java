@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,22 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TmController {
 
   @Autowired
-  private OrderApi orderApi;
-
-  @Autowired
-  private StorageApi storageApi;
-
-  @Autowired
   private StateMachineEngine stateMachineEngine;
-
-  @GlobalTransactional
-  @GetMapping("/test")
-  public String test(){
-    orderApi.test();
-    storageApi.test();
-//    throw new RuntimeException("模拟抛出异常");
-    return "ok";
-  }
 
   /**
    * 模拟购买商品流程
@@ -52,7 +36,7 @@ public class TmController {
   public String purchase(@RequestBody OrderDTO orderDTO){
     Map<String, Object> startParams = new HashMap<>();
     startParams.put("order",orderDTO);
-    StateMachineInstance stateMachineInstance = stateMachineEngine.start("purchaseProcess",null,startParams);
+    StateMachineInstance stateMachineInstance = stateMachineEngine.start("purchaseProcess2",null,startParams);
     return "执行状态:"+stateMachineInstance.getStatus().getStatusString();
   }
 

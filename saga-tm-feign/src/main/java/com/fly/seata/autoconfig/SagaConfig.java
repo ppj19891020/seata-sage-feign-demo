@@ -35,7 +35,7 @@ public class SagaConfig {
   public DbStateMachineConfig dbStateMachineConfig(){
     DbStateMachineConfig dbStateMachineConfig = new DbStateMachineConfig();
     dbStateMachineConfig.setDataSource(dataSource());
-    Resource[] resources = {new ClassPathResource("statelang/purchase.json")};
+    Resource[] resources = {new ClassPathResource("statelang/purchase.json"),new ClassPathResource("statelang/purchase2.json")};
     dbStateMachineConfig.setResources(resources);
     dbStateMachineConfig.setEnableAsync(true);
     dbStateMachineConfig.setThreadPoolExecutor(threadPoolExecutor());

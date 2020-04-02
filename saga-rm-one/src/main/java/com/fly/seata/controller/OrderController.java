@@ -46,8 +46,8 @@ public class OrderController {
    */
   @PostMapping(value = "/createOrderNo",consumes = MediaType.APPLICATION_JSON_VALUE)
   public String createOrder(@RequestBody OrderDTO orderDTO){
-    orderService.createOrder(orderDTO);
-    return "ok";
+    String orderNo = orderService.createOrder(orderDTO);
+    return orderNo;
   }
 
   /**
