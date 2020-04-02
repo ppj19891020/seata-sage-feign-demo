@@ -65,8 +65,9 @@ public class SagaConfig {
   @Bean
   public ThreadPoolExecutor threadPoolExecutor(){
     ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean = new ThreadPoolExecutorFactoryBean();
-    threadPoolExecutorFactoryBean.setCorePoolSize(1);
+    threadPoolExecutorFactoryBean.setCorePoolSize(8);
     threadPoolExecutorFactoryBean.setMaxPoolSize(20);
+    threadPoolExecutorFactoryBean.setQueueCapacity(2000);
     threadPoolExecutorFactoryBean.setThreadNamePrefix("saga_");
     return (ThreadPoolExecutor)threadPoolExecutorFactoryBean.getObject();
   }
