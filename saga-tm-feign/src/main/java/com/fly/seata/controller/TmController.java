@@ -9,7 +9,10 @@ import io.seata.spring.annotation.GlobalTransactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +30,25 @@ public class TmController {
   @Autowired
   private StateMachineEngine stateMachineEngine;
 
+  @Autowired
+  private StorageApi storageApi;
+
   /**
    * 模拟购买商品流程
    * @return
    */
   @GlobalTransactional
   @PostMapping("/purchase")
-  public String purchase(@RequestBody OrderDTO orderDTO){
+  public String purchase(HttpServletRequest request,@RequestBody OrderDTO orderDTO){
     Map<String, Object> startParams = new HashMap<>();
     startParams.put("order",orderDTO);
-    StateMachineInstance stateMachineInstance = stateMachineEngine.start("purchaseProcess2",null,startParams);
+    StateMachineInstance stateMachineInstance = null;
+    String type = request.getHeader("type");
+    if(StringUtils.isNotEmpty(type) && type.equalsIgnoreCase("hot")){
+        stateMachineInstance = stateMachineEngine.start("purchaseProcess2",null,startParams);
+    }else {
+        stateMachineInstance = stateMachineEngine.start("purchaseProcess3",null,startParams);
+    }
     return "执行状态:"+stateMachineInstance.getStatus().getStatusString();
   }
 

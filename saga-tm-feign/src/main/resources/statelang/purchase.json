@@ -93,7 +93,6 @@
       ]
     },
     "CompensatingReduceStorage": {
-      "Comment": "库存补偿服务",
       "Comment": "扣减库存服务",
       "Type": "ServiceTask",
       "ServiceName": "com.fly.seata.api.StorageApi",

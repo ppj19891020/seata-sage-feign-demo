@@ -53,11 +53,10 @@ public class OrderController {
   /**
    * 取消订单服务
    * @param orderNo
-   * @param type 类型 1：订单号生成失败  2：订单生成失败
    */
   @GetMapping("/canal/{orderNo}")
-  public void canalOrder(@PathVariable("orderNo") String orderNo,@RequestParam("type") Integer type){
-    log.info("取消订单成功，订单号为:{} type:{}",orderNo,type);
+  public void canalOrder(@PathVariable("orderNo") String orderNo){
+    log.info("取消订单成功，订单号为:{}",orderNo);
     orderService.canalOrder(orderNo);
   }
 

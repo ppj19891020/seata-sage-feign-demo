@@ -27,5 +27,5 @@ public interface OrderApi {
    String createOrder(@RequestBody OrderDTO orderDTO);
 
    @GetMapping("/order/canal/{orderNo}")
-   void canalOrder(@PathVariable("orderNo") String orderNo,@RequestParam("type") Integer type);
+   void canalOrder(@PathVariable("orderNo") String orderNo);
 }

@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -43,6 +44,28 @@ public class StorageController {
   public void compensateReduce(@RequestBody StorageDTO storageDTO){
     log.info("补偿扣减库存，订单号:{}",storageDTO.getOrderNo());
     storageService.rollbackReduceStorage(storageDTO.getProductId(),storageDTO.getCount());
+  }
+
+  /**
+   * 插入库存
+   * @param productId
+   * @return
+   */
+  @RequestMapping(value = "/insertstorage")
+  public Long insertStorage(@RequestParam Long productId){
+    log.info("insert storage");
+    return storageService.insertStorage(productId);
+  }
+
+  /**
+   * 删除库存
+   * @param storageId
+   */
+  @RequestMapping(value = "/compensateinsert")
+  public String  compensateInsert(@RequestParam Long storageId){
+    log.info("触发库存新增回滚操作，delete storage id:{}",storageId);
+//    storageService.deleteStorageById(storageId);
+    return "ok";
   }
 
 }

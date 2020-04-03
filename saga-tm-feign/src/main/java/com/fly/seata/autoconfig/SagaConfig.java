@@ -7,10 +7,7 @@ import io.seata.saga.engine.impl.ProcessCtrlStateMachineEngine;
 import io.seata.saga.rm.StateMachineEngineHolder;
 import java.util.concurrent.ThreadPoolExecutor;
 import javax.sql.DataSource;
-import org.springframework.beans.BeansException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -34,8 +31,11 @@ public class SagaConfig {
   @Bean
   public DbStateMachineConfig dbStateMachineConfig(){
     DbStateMachineConfig dbStateMachineConfig = new DbStateMachineConfig();
+    dbStateMachineConfig.setRmReportEnable(false);
+    dbStateMachineConfig.setEnableAsync(true);
     dbStateMachineConfig.setDataSource(dataSource());
-    Resource[] resources = {new ClassPathResource("statelang/purchase.json"),new ClassPathResource("statelang/purchase2.json")};
+    Resource[] resources = {new ClassPathResource("statelang/purchase.json"),new ClassPathResource("statelang/purchase2.json"),
+        new ClassPathResource("statelang/purchase3.json")};
     dbStateMachineConfig.setResources(resources);
     dbStateMachineConfig.setEnableAsync(true);
     dbStateMachineConfig.setThreadPoolExecutor(threadPoolExecutor());

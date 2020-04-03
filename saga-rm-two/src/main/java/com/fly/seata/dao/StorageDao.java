@@ -34,4 +34,19 @@ public interface StorageDao {
   @Update("update storage set used = used - #{count},residue = residue + #{count} where id = #{productId} and used > 0")
   int rollback(@Param("productId") Long productId, @Param("count") Integer count);
 
+  /**
+   * 插入库存
+   * @return
+   */
+  @Insert("INSERT INTO `storage`(`product_id`, `total`, `used`, `residue`) VALUES (#{productId}, #{total}, 0, #{used})")
+  @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+  int insert(Storage storage);
+
+  /**
+   * 删除库存
+   * @param id
+   */
+  @Delete("delete from `storage` where id = #{id}")
+  void delete(Long id);
+
 }

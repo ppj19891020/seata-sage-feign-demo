@@ -1,6 +1,6 @@
 {
-  "Name": "purchaseProcess2",
-  "Comment": "用户下单流程-saga流程2",
+  "Name": "purchaseProcess3",
+  "Comment": "用户下单流程-saga流程3",
   "StartState": "CreateOrder",
   "Version": "1.0.0",
   "States": {
@@ -34,23 +34,24 @@
       }
     },
     "ReduceStorage": {
-      "Comment": "扣减库存服务",
+      "Comment": "库存服务",
       "Type": "ServiceTask",
       "ServiceName": "com.fly.seata.api.StorageApi",
-      "ServiceMethod": "reduce",
+      "ServiceMethod": "insertStorage",
       "CompensateState": "CompensatingReduceStorage",
       "Next":"Succeed",
-      "Input": [{
-        "orderNo": "$.[orderNo]",
-        "productId": "$.[order].productId",
-        "count": "$.[order].count"
-      }],
+      "Input": [
+        "$.[order].productId"
+      ],
       "Catch": [{
         "Exceptions": [
           "java.lang.Throwable"
         ],
         "Next": "CompensationTrigger"
-      }]
+      }],
+      "Output": {
+        "storageId": "$.#root"
+      }
     },
     "CompensationCanalOrder2": {
       "Comment": "取消订单补偿服务2--用于订单生成失败",
@@ -58,20 +59,15 @@
       "ServiceName": "com.fly.seata.api.OrderApi",
       "ServiceMethod": "canalOrder",
       "Input": [
-        "$.[orderNo]",
-        2
+        "$.[orderNo]"
       ]
     },
     "CompensatingReduceStorage": {
-      "Comment": "扣减库存服务",
+      "Comment": "库存补偿服务",
       "Type": "ServiceTask",
       "ServiceName": "com.fly.seata.api.StorageApi",
-      "ServiceMethod": "compensateReduce",
-      "Input": [{
-        "orderNo": "$.[orderNo]",
-        "productId": "$.[order].productId",
-        "count": "$.[order].count"
-      }]
+      "ServiceMethod": "compensateInsert",
+      "Input": ["$.[order].productId"]
     },
     "CompensationTrigger": {
       "Type": "CompensationTrigger"
