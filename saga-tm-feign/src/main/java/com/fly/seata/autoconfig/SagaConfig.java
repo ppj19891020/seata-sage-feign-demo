@@ -31,7 +31,7 @@ public class SagaConfig {
   @Bean
   public DbStateMachineConfig dbStateMachineConfig(){
     DbStateMachineConfig dbStateMachineConfig = new DbStateMachineConfig();
-    dbStateMachineConfig.setRmReportEnable(false);
+//    dbStateMachineConfig.setRmReportEnable(false);
     dbStateMachineConfig.setEnableAsync(true);
     dbStateMachineConfig.setDataSource(dataSource());
     Resource[] resources = {new ClassPathResource("statelang/purchase.json"),new ClassPathResource("statelang/purchase2.json"),
