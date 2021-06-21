@@ -7,9 +7,9 @@ spring:
   datasource:
     saga:
       driver-class: com.alibaba.druid.proxy.DruidDriver
-      url: jdbc:mysql://192.168.202.137:3306/seata_order
-      username: pangpeijie
-      password: shagNuwiUs@utdeerUmrunwenosix7
+      url: jdbc:mysql://192.168.202.184:3306/seata_order
+      username: otter
+      password: JDAcQS3x9S0B2U5icM4h
   cloud:
     alibaba:
       seata:

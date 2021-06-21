@@ -1,12 +1,10 @@
 package com.fly.seata.controller;
 
-import com.fly.seata.api.OrderApi;
 import com.fly.seata.api.StorageApi;
 import com.fly.seata.dto.OrderDTO;
 import io.seata.saga.engine.StateMachineEngine;
 import io.seata.saga.statelang.domain.StateMachineInstance;
 import io.seata.spring.annotation.GlobalTransactional;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-11-18
  * @Description:
  */
-@RequestMapping("/tm")
+@RequestMapping("/seata/tm")
 @RestController
 public class TmController {
 
@@ -50,6 +48,11 @@ public class TmController {
         stateMachineInstance = stateMachineEngine.start("purchaseProcess3",null,startParams);
     }
     return "执行状态:"+stateMachineInstance.getStatus().getStatusString();
+  }
+
+  @GetMapping("/test")
+  public String test(){
+    return "ok";
   }
 
 }

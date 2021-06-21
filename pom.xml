@@ -24,7 +24,7 @@
   </modules>
 
   <properties>
-    <seata.version>1.2.0-SNAPSHOT</seata.version>
+    <seata.version>1.4.2-SNAPSHOT</seata.version>
     <alibaba-seata.version>2.2.0.RELEASE</alibaba-seata.version>
     <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
   </properties>
